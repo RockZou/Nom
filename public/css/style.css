@@ -1,0 +1,13 @@
+body{
+	background-color: #7AF255;
+}
+
+#container{
+	background-color: #96E026;
+	text-align: center;
+}
+
+#menu_items{
+	margin-left: auto;
+	margin-right: auto;
+}
