@@ -3,11 +3,15 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
-		<title>Express with Public Folder</title>
-		<link rel="stylesheet" href="input_style.css">
+		<title>Happy Food On Happy Island</title>
+		<link rel="stylesheet" href="css/input.css">
 	</head>
 
 	<body>
+
+		<div id='menuName'>
+				<h1>Menu for Samurai</h1>
+		</div>
 
 		<h2 id="theMessage">Enter the Menu Items</h2>
 		
@@ -25,7 +29,12 @@
 				<button id="enter">ENTER</button>
 			</div>
 		</div>
+		
+		<div id="loading">Data is on the way...</div>
+		
+		<div id="dataContainer">
 
+		</div>
 
 		<script>
 			//Grab the response object vars
@@ -33,6 +42,8 @@
 		</script>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-		<script src="input_main.js"></script>
+
+		<script src="js/displayMenu.js"></script>
+		<script src="js/input.js"></script>
 	</body>
 </html>
