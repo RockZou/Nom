@@ -32,8 +32,8 @@ var db_PASSWORD = 'NUfwHgih5VxoNA6OHVpkEHYp';
 ROUTES
 -----*/
 
-
 var menuData;
+var theOrder=[];//store all ordered items from a user
 
 function getMenu(){
 	var db_DATABASE = 'samurai_menu';
@@ -112,25 +112,43 @@ app.post("/delete", function(req,res){
 		res.json(body);
 	});
 });
-/******************END MENU INPUT******************/
-app.post("/order", function(req,res){
+/******************
+END MENU INPUT
+******************/
+
+/*******
+ORDER COLLECTION
+********/
+
+app.post("/order_add", function(req,res){
+	
+	console.log("adding an order");
+	var theObj=req.body;
+	theOrder.push(theObj);
+	console.log("the current order is:");
+	console.log(theOrder);
+});
+
+app.post("/order_confirm", function(req,res){
 	var db_DATABASE = 'samurai_orders';
 	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
 
 	console.log("posting an order");
-	var theObj=req.body;
-	Request.post({
+
+	console.log("the current order is:");
+	console.log(theOrder);
+	
+		Request.post({
 		url:db_URL, /*databaseURL*/
 		auth: {
 			user: db_KEY/*user API key*/,
 			pass: db_PASSWORD
 		},
 		json: true,
-		body:theObj
+		body:theOrder
 		},
 		function(err/*error message*/, response/*response status*/, body/*return message from Database*/){
 			//Need to parse the body AGAIN
-
 			var theBody = body;
 			console.log ("error message:", err);
 			console.log("theBody:",theBody);
@@ -138,7 +156,9 @@ app.post("/order", function(req,res){
 		}
 	);
 });
-
+/******
+END ORDER COLLECTION
+*******/
 
 /******************END THE POST STUFF**************/
 

@@ -3,11 +3,41 @@ var dataStatus;
 var orderTotal=0;
 var theOrder=[];
 
+
+/*******
+HOW TO SEND AN ARRAY OF JSON OBJECTS TO THE SERVER?
+******/
+
 function addFunction(dataObj){
 	orderTotal+=parseInt(dataObj.price,10);
 	$('#orderTotal').html(orderTotal);
 	theOrder.push(dataObj);
-	console.log(theOrder);
+
+	/**********
+	temporary solution
+	***********/
+
+	//add an order object on the server
+	$.ajax({
+		url: '/order_add',
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(dataObj),
+		error: function(data){
+			console.log(data);
+			console.log("Oh No! Problem with posting the order to database!");
+		},
+		success: function(data){
+			console.log("order posted to database!");
+			console.log(data);
+		}
+	});
+
+	/********
+	end	tmeporary solution
+	*********/
+
+//	console.log(JSON.stringify(theOrder));
 
 	console.log('the order total is'+orderTotal);
 	
@@ -17,9 +47,10 @@ function addFunction(dataObj){
 function confirmFunciton(){
 
 	$.ajax({
-		url: '/save',
+		url: '/order_confirm',
 		type: 'POST',
-		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(theOrder),
 		error: function(data){
 			console.log(data);
 			console.log("Oh No! Problem with posting the order to database!");
