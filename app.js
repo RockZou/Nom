@@ -34,6 +34,8 @@ ROUTES
 
 var menuData;
 var theOrder=[];//store all ordered items from a user
+var theOrderObj={};
+var orderTotal=0;
 
 function getMenu(){
 	var db_DATABASE = 'samurai_menu';
@@ -93,7 +95,6 @@ app.post("/delete", function(req,res){
 	var db_DATABASE = 'samurai_menu';
 	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
 
-
 	console.log("Deleting an object");
 	var theObj = req.body;
 	//The URL must include the obj ID and the obj REV values
@@ -124,6 +125,9 @@ app.post("/order_add", function(req,res){
 	
 	console.log("adding an order");
 	var theObj=req.body;
+	console.log("the price is");
+	console.log(theObj.price);
+	orderTotal+=parseInt(theObj.price,10);
 	theOrder.push(theObj);
 	console.log("the current order is:");
 	console.log(theOrder);
@@ -137,7 +141,10 @@ app.post("/order_confirm", function(req,res){
 
 	console.log("the current order is:");
 	console.log(theOrder);
-	
+
+	theOrderObj.orderTotal=orderTotal;
+	theOrderObj.theOrder= theOrder;
+
 		Request.post({
 		url:db_URL, /*databaseURL*/
 		auth: {
@@ -145,7 +152,7 @@ app.post("/order_confirm", function(req,res){
 			pass: db_PASSWORD
 		},
 		json: true,
-		body:theOrder
+		body:theOrderObj
 		},
 		function(err/*error message*/, response/*response status*/, body/*return message from Database*/){
 			//Need to parse the body AGAIN
@@ -153,6 +160,8 @@ app.post("/order_confirm", function(req,res){
 			console.log ("error message:", err);
 			console.log("theBody:",theBody);
 			res.json(theBody);
+			theOrderObj={};
+			orderTotal=0;
 		}
 	);
 });
@@ -199,12 +208,36 @@ app.get("/:word", function(req, res){
 
 
 //JSON Serving route - ALL Data
-app.get("/api/all", function(req,res){
+app.get("/api/menu/all", function(req,res){
 	var db_DATABASE = 'samurai_menu';
 	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
 
 
 	console.log('Making a db request for all entries');
+	// Use the Request lib to GET the data in the CouchDB on Cloudant
+	Request.get({
+		url: db_URL+"/_all_docs?include_docs=true",
+		auth: {
+			user: db_KEY,
+			pass: db_PASSWORD
+		}
+	}, function (error, response, body){
+		// Need to parse the body string
+		console.log(error);
+
+		var theBody = JSON.parse(body);
+		var theRows = theBody.rows;
+		//Send the data
+		res.send(theRows);
+	});
+});
+
+//JSON Serving route - ALL Data
+app.get("/api/orders/all", function(req,res){
+	var db_DATABASE = 'samurai_orders';
+	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+
+	console.log('Making a db request for all order entries');
 	// Use the Request lib to GET the data in the CouchDB on Cloudant
 	Request.get({
 		url: db_URL+"/_all_docs?include_docs=true",

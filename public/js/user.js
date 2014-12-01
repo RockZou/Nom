@@ -50,7 +50,6 @@ function confirmFunciton(){
 		url: '/order_confirm',
 		type: 'POST',
 		contentType: 'application/json',
-		data: JSON.stringify(theOrder),
 		error: function(data){
 			console.log(data);
 			console.log("Oh No! Problem with posting the order to database!");
@@ -58,12 +57,17 @@ function confirmFunciton(){
 		success: function(data){
 			console.log("order posted to database!");
 			console.log(data);
+			getCurrentOrderAmount();
+			theOrder=[];
+			orderTotal=0;
+			$('#orderTotal').html('0');
 		}
 	});
 }
 
 $(document).ready(function(){
 	console.log("We are loaded");
+	getCurrentOrderAmount();
 	getMenu();
 	$('#confirm_button').click(function(){
 		confirmFunciton();

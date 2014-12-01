@@ -20,27 +20,27 @@ function Menu_item(dataObj,index){
 		curObj.element.click(function(e){
 			var theID = $(e.target).attr("id");
 			if (theID == curObj.dataObj._rev){
-				addFunction(curObj.dataObj);//change to add function
+				addFunction(curObj.dataObj);//addFunction specific to each page
 			}
 			else if (theID == curObj.dataObj._id){
-				deleteFunction(curObj.dataObj);//change to delete function
+				deleteFunction(curObj.dataObj);//deleteFunction specific to each page
 			}
 		});
 	};
 }
 
 //send the data to the server then the server will send the data to DB
-function getMenu(theObj){
+function getMenu(){
 	
 	$('#loading').html('data is loading');
 	$('#loading').show();
 
 	$.ajax({
-		url:'/api/all',
+		url:'/api/menu/all',
 		type:'GET',
 		dataType:'json',
 		error: function(data){
-			console.log("bad things happened");
+			console.log("bad things happened at getMenu");
 			console.log(data);
 			$('#loading').html('Sorry things are wrong while sending to server...');
 			$('#loading').show();
@@ -62,6 +62,42 @@ function getMenu(theObj){
 
 			$('#loading').hide();
 
+		}
+	});
+
+}
+
+function getCurrentOrderAmount(){
+	var orders=[];
+	$.ajax({
+		url:'/api/orders/all',
+		type:'GET',
+		dataType:'json',
+		error: function(data){
+			console.log("bad things happened at getOrders");
+			console.log(data);
+			$('#loading').html('Sorry things are wrong while sending to server...');
+			$('#loading').show();
+		},
+		success: function(data){
+			console.log("Data came back from server");
+			orders=data.map(function(d){
+				return d.doc;
+			});
+			console.log("orders are:");
+			console.log(orders);
+			console.log("one order is:");
+			console.log(orders[0]);
+
+			var currentOrderAmount=0;
+			orders.forEach(function(d,i){
+				console.log('the order total is:');
+				console.log(parseInt(d.orderTotal,10));
+				currentOrderAmount+=parseInt(d.orderTotal,10);
+			});
+			console.log("currentOrderAmount is:");
+			console.log(currentOrderAmount);
+			$('#totalOrderAmount').html(currentOrderAmount);
 		}
 	});
 
