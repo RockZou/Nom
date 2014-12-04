@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var _ = require('underscore');
 //var theJsFile= require('/the')
 
-
 var db_USER='rockzou';
 var db_DATABASE = 'samurai_menu';
 var db_KEY = 'someeptimedcurvandentsoc';
