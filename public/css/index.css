@@ -1,17 +1,20 @@
 body{
-	background-color: #7AF255;
+	background-color: #AAAAAA;
 }
 
-#container{
-	background-color: #96E026;
-	text-align: center;
+#menuName{
+	width: 350px;
+	margin:0 auto;
+	background-color: #BBBBBB;
 }
 
-
-/***********Styling not working!!!!!!!********/
-#dataContainer{
-	width: 1000;
+#dataContainer {
+	width: 400px;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#buttons {
+	text-align: center;
 }

@@ -1,17 +1,27 @@
 body{
-	background-color: #29A329;
+	background-color: #AAAAAA;
+}
+
+#menuName{
+	text-align: center;
+}
+
+#totalOrderAmount{
+	font-size: 20px;
+	text-align: center;
 }
 
 #container{
-	background-color: #96E026;
+	background-color: #999999;
 	text-align: center;
 }
 
 
 /***********Styling not working!!!!!!!********/
 #dataContainer{
+	font-size: 15px;
 	margin: 0 auto;
-	max-width: 450px;
+	max-width: 300px;
 }
 
 #orderTotal_text{
@@ -21,7 +31,7 @@ body{
 #orderTotal{
 	width: 200px;
 	margin:0 auto;
-	background-color: #006400;
+	background-color: #BBBBBB;
 	text-align: center;
 	font-size: 50px;
 }

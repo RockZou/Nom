@@ -36,7 +36,7 @@ function getMenu(){
 	$('#loading').show();
 
 	$.ajax({
-		url:'/api/menu/all',
+		url:'/api_menu_all',
 		type:'GET',
 		dataType:'json',
 		error: function(data){
@@ -70,7 +70,7 @@ function getMenu(){
 function getCurrentOrderAmount(){
 	var orders=[];
 	$.ajax({
-		url:'/api/orders/all',
+		url:'/api_orders_all',
 		type:'GET',
 		dataType:'json',
 		error: function(data){

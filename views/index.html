@@ -16,28 +16,29 @@
 </head>
 
 <body>
- 	
- 	<div id='container'>
 
-		<div id='menuName'>
-			<h1>Menu for Samurai</h1>
-		</div>
-
+	<div id='menuName'>
+		<h1>Menu for Samurai</h1>
 	</div>
+
 
 	<div id="dataContainer">
 		<div id="loading">Data is on the way...</div>
 	</div>
+	
+	<div id="buttons">
+		<div id="user_button">
+			<form action="/order">
+				<button> Click Here For Food</button>
+			</form>
+			
+		</div>
 
-	<div id="user_button">
-		<form action="/user">
-			<button> Click Here For Food</button>
-		</form>
-		
-	</div>
-
-	<div id="admin_button">
-		<button> Click Here For Unicorns</button>
+		<div id="input_button">
+			<form action="/input">
+				<button> Click Here For Unicorns</button>
+			</form>
+		</div>
 	</div>
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>

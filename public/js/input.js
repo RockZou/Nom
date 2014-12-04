@@ -13,7 +13,7 @@ function deleteFunction(dataObj){
 	//Proceed if confirm is true
 	//$('#dataContainer').html('<div id="loading">Data is being deleted...</div>');
 	$.ajax({
-		url: '/delete',
+		url: '/delete_menu_item',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(dataObj),
@@ -38,7 +38,7 @@ function sendToServer(theObj){
 	$('#loading').show();
 
 	$.ajax({
-		url:'/save',
+		url:'/save_menu_item',
 		type:'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(theObj),

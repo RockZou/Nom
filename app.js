@@ -1,9 +1,47 @@
+/***********
+Bug List to be fixed
+************/
+/******
+CURRENT ISSUES
+1. Database timeout
+
+*******/
+/******
+DONE
+1. The order total should first load the info from db 
+instead of showing 0
+2. Loading menu from index page not working
+*******/
+
+/***********
+Functions to be added
+**********/
+/********
+5. Order Items manipulation/display for user and admin
+2. Add Credit System
+3. Multi-restaurant for menu input and order
+1. Deploy to Heroku
+3. Authentication
+4. Styling
+6. Total Order Amount Prediction based on current user's order/ dynamic color cues
+*********/
+
+/*********
+Structural Changes
+**********/
+/*********
+1. Modulerize the app.js with extra js files
+*********/
+
+
+
 //Set up requirements
 var express = require("express");
 var logger = require('morgan');
 var Request = require('request');
 var bodyParser = require('body-parser');
 var _ = require('underscore');
+//var theJsFile= require('/the')
 
 //Create an 'express' object
 var app = express();
@@ -27,234 +65,54 @@ var db_KEY = 'someeptimedcurvandentsoc';
 var db_PASSWORD = 'NUfwHgih5VxoNA6OHVpkEHYp';
 
 
+var load_pages_routes = require('./routes/load_pages.js');
+var order_routes = require('./routes/order.js');
+var input_routes = require('./routes/input.js');
+var data_routes = require('./routes/data.js');
 
 /*-----
 ROUTES
 -----*/
 
-var menuData;
-var theOrder=[];//store all ordered items from a user
-var theOrderObj={};
-var orderTotal=0;
-
-function getMenu(){
-	var db_DATABASE = 'samurai_menu';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
-
-	Request.get({
-		url: db_URL+"/_all_docs?include_docs=true",
-		auth: {
-			user: db_KEY,
-			pass: db_PASSWORD
-		}
-	}, function (error, response, body){
-		// Need to parse the body string
-		var theBody = JSON.parse(body);
-		var rows = theBody.rows;
-
-		console.log(rows);
-		//Send the data
-	});//end Request.get	
-}//end getMenu
-
-
-/******************ALL THE POST STUFF*******************/
 /**************** MENU INPUT ***********************/
-app.post("/save",function(req,res){
-	var db_DATABASE = 'samurai_menu';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+//ADD an item to the menu database
+app.post("/save_menu_item",input_routes.save_menu_item);
 
+//DELETE an item from the database
+app.post("/delete_menu_item", input_routes.delete_menu_item);
 
-	console.log("A POST!!!!");
-	//Get the data from the body
-	var theObj= req.body;
-	console.log("the posted Obj is:", theObj);
-	//send the data to db
-	Request.post({
-		url:db_URL, /*databaseURL*/
-		auth: {
-			user: db_KEY/*user API key*/,
-			pass: db_PASSWORD
-		},
-		json: true,
-		body:theObj
-		},
-		function(err/*error message*/, response/*response status*/, body/*return message from Database*/){
-			//Need to parse the body AGAIN
-
-			var theBody = body;
-			console.log ("error message:", err);
-			console.log("theBody:",theBody);
-			res.json(theBody);
-		}
-	);
-});
-
-//DELETE an object from the database
-app.post("/delete", function(req,res){
-	var db_DATABASE = 'samurai_menu';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
-
-	console.log("Deleting an object");
-	var theObj = req.body;
-	//The URL must include the obj ID and the obj REV values
-	var theURL = db_URL + '/' + theObj._id + '?rev=' + theObj._rev;
-	//Need to make a DELETE Request
-	Request.del({
-		url: theURL,
-		auth: {
-			user: db_KEY,
-			pass: db_PASSWORD
-		},
-		json: true
-	},
-	function (error, response, body){
-		console.log(body);
-		res.json(body);
-	});
-});
-/******************
-END MENU INPUT
-******************/
 
 /*******
 ORDER COLLECTION
 ********/
+//add an item to the current order
+app.post("/order_add", order_routes.order_add);
+//confirm and send order to database
+app.post("/order_confirm", order_routes.order_confirm);
 
-app.post("/order_add", function(req,res){
-	
-	console.log("adding an order");
-	var theObj=req.body;
-	console.log("the price is");
-	console.log(theObj.price);
-	orderTotal+=parseInt(theObj.price,10);
-	theOrder.push(theObj);
-	console.log("the current order is:");
-	console.log(theOrder);
-});
-
-app.post("/order_confirm", function(req,res){
-	var db_DATABASE = 'samurai_orders';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
-
-	console.log("posting an order");
-
-	console.log("the current order is:");
-	console.log(theOrder);
-
-	theOrderObj.orderTotal=orderTotal;
-	theOrderObj.theOrder= theOrder;
-
-		Request.post({
-		url:db_URL, /*databaseURL*/
-		auth: {
-			user: db_KEY/*user API key*/,
-			pass: db_PASSWORD
-		},
-		json: true,
-		body:theOrderObj
-		},
-		function(err/*error message*/, response/*response status*/, body/*return message from Database*/){
-			//Need to parse the body AGAIN
-			var theBody = body;
-			console.log ("error message:", err);
-			console.log("theBody:",theBody);
-			res.json(theBody);
-			theOrderObj={};
-			orderTotal=0;
-		}
-	);
-});
-/******
-END ORDER COLLECTION
-*******/
 
 /******************END THE POST STUFF**************/
 
 
-
-/*************ALL THE GET STUFF*********************/
-
-
+/****
+page loads
+*****/
 //Main Page Route - Menu Page
-app.get("/", function(req, res){
-//	console.log(menuData);
-	res.render('index');
-});
-
-//the user page
-app.get("/user",function(req, res){
-	res.render('user');
-});
-
-//get the menu data
-app.get("/menu.json", function(req, res){
-	getMenu();
-	res.json(menuData);
-});
-
+app.get("/", load_pages_routes.index);
+//the order page
+app.get("/order",load_pages_routes.order);
 
 //Input Page route, input menu items
-app.get("/input", function(req, res){
-	res.render('input');
-});
+app.get("/input", load_pages_routes.input);
 
-//Main Page Route - WITH data requested via the client
-app.get("/:word", function(req, res){
-	var currentWord = req.params.word;
-	res.render('index', {message: currentWord, search: true});
-});
+//get the menu data
+app.get("/menu.json", data_routes.send_menus_data);
 
+//JSON Serving routes - ALL Menu Data
+app.get("/api_menu_all", data_routes.send_menus_data);
 
-
-//JSON Serving route - ALL Data
-app.get("/api/menu/all", function(req,res){
-	var db_DATABASE = 'samurai_menu';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
-
-
-	console.log('Making a db request for all entries');
-	// Use the Request lib to GET the data in the CouchDB on Cloudant
-	Request.get({
-		url: db_URL+"/_all_docs?include_docs=true",
-		auth: {
-			user: db_KEY,
-			pass: db_PASSWORD
-		}
-	}, function (error, response, body){
-		// Need to parse the body string
-		console.log(error);
-
-		var theBody = JSON.parse(body);
-		var theRows = theBody.rows;
-		//Send the data
-		res.send(theRows);
-	});
-});
-
-//JSON Serving route - ALL Data
-app.get("/api/orders/all", function(req,res){
-	var db_DATABASE = 'samurai_orders';
-	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
-
-	console.log('Making a db request for all order entries');
-	// Use the Request lib to GET the data in the CouchDB on Cloudant
-	Request.get({
-		url: db_URL+"/_all_docs?include_docs=true",
-		auth: {
-			user: db_KEY,
-			pass: db_PASSWORD
-		}
-	}, function (error, response, body){
-		// Need to parse the body string
-		console.log(error);
-
-		var theBody = JSON.parse(body);
-		var theRows = theBody.rows;
-		//Send the data
-		res.send(theRows);
-	});
-});
+//JSON Serving route - ALL Order Data
+app.get("/api_orders_all", data_routes.send_orders_data);
 
 
 
@@ -265,5 +123,4 @@ app.get("*", function(req, res){
 
 // Start the server
 app.listen(4000);
-	getMenu();
 console.log('Express started on port 4000');
