@@ -35,6 +35,8 @@ Structural Changes
 
 
 
+var port = process.env.PORT || 3000;
+
 //Set up requirements
 var express = require("express");
 var logger = require('morgan');
@@ -164,5 +166,6 @@ app.get("*", function(req, res){
 });
 
 // Start the server
-app.listen(4000);
+//app.listen(4000);
+app.listen(process.env.PORT || 3000);
 console.log('Express started on port 4000');
