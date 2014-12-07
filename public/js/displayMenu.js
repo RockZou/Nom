@@ -46,11 +46,11 @@ function getMenu(){
 			$('#loading').show();
 		},
 		success: function(data){
-			console.log("Data came back from server");
 			menu_items=data.map(function(d){
 				return d.doc;
 			});
-			console.log(menu_items);
+			//console.log("Data came back from server");
+			//console.log(menu_items);
 
 
 			$('#dataContainer').html('<ul id="theDataList" style="list-style-type:none">');
@@ -60,12 +60,15 @@ function getMenu(){
 				tempObj.createDomElement();
 			});
 
+			$('#theDataList').append('</ul>');
+
 			$('#loading').hide();
 
 		}
 	});
 
 }
+
 
 function getCurrentOrderAmount(){
 	var orders=[];
@@ -84,10 +87,11 @@ function getCurrentOrderAmount(){
 			orders=data.map(function(d){
 				return d.doc;
 			});
-			console.log("orders are:");
-			console.log(orders);
-			console.log("one order is:");
-			console.log(orders[0]);
+
+			// console.log("orders are:");
+			// console.log(orders);
+			// console.log("one order is:");
+			// console.log(orders[0]);
 
 			var currentOrderAmount=0;
 			orders.forEach(function(d,i){

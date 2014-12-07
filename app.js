@@ -4,7 +4,7 @@ Bug List to be fixed
 /******
 CURRENT ISSUES
 1. Database timeout
-
+2. Input page add button
 *******/
 /******
 DONE
@@ -74,6 +74,42 @@ var data_routes = require('./routes/data.js');
 ROUTES
 -----*/
 
+/**
+Credit Input
+**/
+app.post("/save_credit",input_routes.save_credit);
+//app.post('/delete_credit_entry',input_routes.delete_credit_entry);
+
+app.post("/delete_credit_entry", input_routes.delete_credit_entry);
+
+//UPDATE an object in the database
+app.post('/update_credit', function(req,res){
+	console.log("Updating an object");
+	var theObj = req.body;
+	//Send the data to the db
+	Request.post({
+		url: cloudant_URL,
+		auth: {
+			user: cloudant_KEY,
+			pass: cloudant_PASSWORD
+		},
+		json: true,
+		body: theObj
+	},
+	function (error, response, body){
+		if (response.statusCode == 201){
+			console.log("Updated!");
+			res.json(body);
+		}
+		else{
+			console.log("Uh oh...");
+			console.log("Error: " + res.statusCode);
+			res.send("Something went wrong...");
+		}
+	});
+});
+
+
 /**************** MENU INPUT ***********************/
 //ADD an item to the menu database
 app.post("/save_menu_item",input_routes.save_menu_item);
@@ -101,18 +137,24 @@ page loads
 app.get("/", load_pages_routes.index);
 //the order page
 app.get("/order",load_pages_routes.order);
-
 //Input Page route, input menu items
 app.get("/input", load_pages_routes.input);
 
+
+
+/***
+data loads
+***/
 //get the menu data
-app.get("/menu.json", data_routes.send_menus_data);
+app.get("/menu.json", data_routes.get_menus_data);
 
 //JSON Serving routes - ALL Menu Data
-app.get("/api_menu_all", data_routes.send_menus_data);
+app.get("/api_menu_all", data_routes.get_menus_data);
 
 //JSON Serving route - ALL Order Data
-app.get("/api_orders_all", data_routes.send_orders_data);
+app.get("/api_orders_all", data_routes.get_orders_data);
+
+app.get("/api_credit",data_routes.get_credit_data);
 
 
 

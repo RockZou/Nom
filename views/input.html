@@ -8,33 +8,58 @@
 	</head>
 
 	<body>
+		<div id="menu_input">
+			<div id='menuName'>
+					<h1>Menu for Samurai</h1>
+			</div>
 
-		<div id='menuName'>
-				<h1>Menu for Samurai</h1>
+			<h2 id="theMessage">Enter the Menu Items</h2>
+			
+			
+			<div id="container">
+				<div>
+					Name:
+					<input type="text" id="name"/>
+				</div>
+				<div>
+					Price:
+					<input type="text" id="price"/>
+				</div>
+				<div>
+					<button id="enter">ENTER</button>
+				</div>
+			</div>
+			
+			<div id="loading">Data is on the way...</div>
+			
+			<div id="dataContainer"></div>
 		</div>
 
-		<h2 id="theMessage">Enter the Menu Items</h2>
 		
-		
-		<div id="container">
-			<div>
-				Name:
-				<input type="text" id="name"/>
+		<div id="credit_input">
+			<div id='creditListTitle'>
+				<h2>Credit List</h2>
 			</div>
-			<div>
-				Price:
-				<input type="text" id="price"/>
+
+			<div id='creditContainer'></div>
+
+			<div id='credit_title'> Add New User Entry</div>
+
+			<div id='credit_input_boxes'>
+				<div>
+					<input type="text" id='credit_user'>
+				</div>
+				<div>
+					<input type="text" id="credit_amount">
+				</div>
 			</div>
+
 			<div>
-				<button id="enter">ENTER</button>
+					<button id="credit_enter">New Entry</button>
 			</div>
-		</div>
-		
-		<div id="loading">Data is on the way...</div>
-		
-		<div id="dataContainer">
 
 		</div>
+
 
 		<script>
 			//Grab the response object vars

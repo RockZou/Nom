@@ -24,6 +24,9 @@ body{
 	max-width: 300px;
 }
 
+#theDataList button{
+}
+
 #orderTotal_text{
 	text-align: center;
 }

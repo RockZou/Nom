@@ -16,7 +16,7 @@ exports.save_menu_item=function(req,res){
 
 	//Get the data from the body
 	var theObj= req.body;
-	console.log("the posted Obj is:", theObj);
+	console.log("the posted menu item Obj is:", theObj);
 	//send the data to db
 	Request.post({
 		url:db_URL, /*databaseURL*/
@@ -31,8 +31,8 @@ exports.save_menu_item=function(req,res){
 			//Need to parse the body AGAIN
 
 			var theBody = body;
-			console.log ("error message:", err);
-			console.log("theBody:",theBody);
+			//console.log ("error message:", err);
+			//console.log("theBody:",theBody);
 			res.json(theBody);
 		}
 	);
@@ -56,7 +56,58 @@ exports.delete_menu_item=function(req,res){
 		json: true
 	},
 	function (error, response, body){
-		console.log(body);
-		res.json(body);
+		console.log("menu item deleted");
 	});
+};
+
+
+exports.delete_credit_entry=function(req,res){
+	var db_DATABASE = 'user_credit';
+	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+
+	console.log("Deleting an object");
+	var theObj = req.body;
+	//The URL must include the obj ID and the obj REV values
+	var theURL = db_URL + '/' + theObj._id + '?rev=' + theObj._rev;
+	//Need to make a DELETE Request
+	Request.del({
+		url: theURL,
+		auth: {
+			user: db_KEY,
+			pass: db_PASSWORD
+		},
+		json: true
+	},
+	function (error, response, body){
+		console.log("credit entry deleted");
+		res.send("credit entry deleted");
+	});
+};
+
+exports.save_credit=function(req,res){
+
+	var db_DATABASE = 'user_credit';
+	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+
+	var theObj= req.body;
+	console.log("the posted credit Obj is:", theObj);
+	//send the data to db
+	Request.post({
+		url:db_URL, /*databaseURL*/
+		auth: {
+			user: db_KEY/*user API key*/,
+			pass: db_PASSWORD
+		},
+		json: true,
+		body:theObj
+		},
+		function(err/*error message*/, response/*response status*/, body/*return message from Database*/){
+			//Need to parse the body AGAIN
+
+			var theBody = body;
+			console.log ("error message:", err);
+			console.log("theBody:",theBody);
+			res.json(theBody);
+		}
+	);
 };
