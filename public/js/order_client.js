@@ -13,43 +13,19 @@ function addFunction(dataObj){
 	$('#orderTotal').html(orderTotal);
 	theOrder.push(dataObj);
 
-	/**********
-	temporary solution
-	***********/
-
-	//add an order object on the server
-	$.ajax({
-		url: '/order_add',
-		type: 'POST',
-		contentType: 'application/json',
-		data: JSON.stringify(dataObj),
-		error: function(data){
-			console.log(data);
-			console.log("Oh No! Problem with posting the order to database!");
-		},
-		success: function(data){
-			console.log("order posted to database!");
-			console.log(data);
-		}
-	});
-
-	/********
-	end	tmeporary solution
-	*********/
-
-//	console.log(JSON.stringify(theOrder));
-
 	console.log('the order total is'+orderTotal);
 	
 	console.log("add #"+ dataObj.index+ "to user's cart");
 }
 
 function confirmFunciton(){
-
+	var dataObj={};
+	dataObj.data=theOrder;
 	$.ajax({
 		url: '/order_confirm',
 		type: 'POST',
 		contentType: 'application/json',
+		data: JSON.stringify(dataObj),
 		error: function(data){
 			console.log(data);
 			console.log("Oh No! Problem with posting the order to database!");

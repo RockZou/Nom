@@ -8,10 +8,10 @@ function Menu_item(dataObj,index){
 
 	this.createDomElement = function(){
 		var htmlString = '';
-		htmlString += '<li>' + this.dataObj.name + ' : '  + this.dataObj.price;
-		htmlString += '<button id=' + this.dataObj._rev + ' class="addButton">ADD</button>';
-		htmlString += '<button id=' + this.dataObj._id + ' class="deleteButton">DELETE</button>';
-		htmlString += '</li>';
+		htmlString += '<div class="col-xs-6 col-md-4"> <li id="' + this.dataObj.index +'" >'+ this.dataObj.name + ' : '  + this.dataObj.price;
+		htmlString += '<button id=' + this.dataObj._rev + ' class="addButton  btn btn-default" type="submit">ADD</button>';
+		htmlString += '<button id=' + this.dataObj._id + ' class="deleteButton btn btn-default">DELETE</button>';
+		htmlString += '</li></div>';
 
 		//console.log(htmlString);
 		//Bind DOM events within the class
@@ -53,14 +53,14 @@ function getMenu(){
 			//console.log(menu_items);
 
 
-			$('#dataContainer').html('<ul id="theDataList" style="list-style-type:none">');
+			$('#dataContainer').html('<div class="row"><ul id="theDataList" style="list-style-type:none">');
 
 			menu_items.forEach(function(d,i){
 				var tempObj = new Menu_item(d,i);
 				tempObj.createDomElement();
 			});
 
-			$('#theDataList').append('</ul>');
+			$('#theDataList').append('</ul></div>');
 
 			$('#loading').hide();
 
@@ -87,21 +87,17 @@ function getCurrentOrderAmount(){
 			orders=data.map(function(d){
 				return d.doc;
 			});
-
-			// console.log("orders are:");
-			// console.log(orders);
-			// console.log("one order is:");
-			// console.log(orders[0]);
-
 			var currentOrderAmount=0;
 			orders.forEach(function(d,i){
-				console.log('the order total is:');
-				console.log(parseInt(d.orderTotal,10));
+				console.log(d.theOrder);
 				currentOrderAmount+=parseInt(d.orderTotal,10);
 			});
 			console.log("currentOrderAmount is:");
 			console.log(currentOrderAmount);
 			$('#totalOrderAmount').html(currentOrderAmount);
+			var amountInt= parseInt(currentOrderAmount,10);
+			if (amountInt>999999)
+				$(".jumbotron").css("background-image","url:('../src/unicorn.jpg')");
 		}
 	});
 

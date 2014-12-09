@@ -3,14 +3,16 @@ Bug List to be fixed
 ************/
 /******
 CURRENT ISSUES
+Dec.9 ignore index
 1. Database timeout
-2. Input page add button
 *******/
 /******
 DONE
+2. Don't send items when adding, only send a Array when the user confirms order
 1. The order total should first load the info from db 
 instead of showing 0
 2. Loading menu from index page not working
+3. Input page add button
 *******/
 
 /***********
@@ -29,7 +31,12 @@ Functions to be added
 /*********
 Structural Changes
 **********/
+/****
+Dec. 9 Use Frameworks(backbone, etc.) for data binding and querying
+1. Clean up the input.js(client) file
+***/
 /*********
+Done
 1. Modulerize the app.js with extra js files
 *********/
 
@@ -68,7 +75,7 @@ var db_PASSWORD = 'NUfwHgih5VxoNA6OHVpkEHYp';
 
 
 var load_pages_routes = require('./routes/load_pages.js');
-var order_routes = require('./routes/order.js');
+var order_routes = require('./routes/order_route.js');
 var input_routes = require('./routes/input.js');
 var data_routes = require('./routes/data.js');
 
@@ -124,7 +131,7 @@ app.post("/delete_menu_item", input_routes.delete_menu_item);
 ORDER COLLECTION
 ********/
 //add an item to the current order
-app.post("/order_add", order_routes.order_add);
+//app.post("/order_add", order_routes.order_add);
 //confirm and send order to database
 app.post("/order_confirm", order_routes.order_confirm);
 
@@ -141,7 +148,6 @@ app.get("/", load_pages_routes.index);
 app.get("/order",load_pages_routes.order);
 //Input Page route, input menu items
 app.get("/input", load_pages_routes.input);
-
 
 
 /***
@@ -166,6 +172,6 @@ app.get("*", function(req, res){
 });
 
 // Start the server
-//app.listen(4000);
-app.listen(process.env.PORT || 3000);
-console.log('Express started on port 4000');
+app.listen(3000);
+//app.listen(process.env.PORT || 3000);
+console.log('Express started on port 3000');

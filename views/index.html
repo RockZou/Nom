@@ -9,42 +9,89 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/order.css">
 	<title>
 		Happy Food on Happy Island
 	</title>
 </head>
 
 <body>
+	
+	<div class='container'>
+	<div id='wrapper_menu_and_nav' class='row'>
 
-	<div id='menuName'>
-		<h1>Menu for Samurai</h1>
-	</div>
+		<!-- menu_display -->
+		<div id="menu_display" class='col-md-9'>
+
+			<div class='row'>
+
+			<!-- Main jumbotron for a primary marketing message or call to action -->
+				
+				<div class="jumbotron col-lg-12">
+				    <div id='menuName'>
+						<h1>Menu for Mashups</h1>
+						<p>Place Holder <br><br><br><br><br></p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class='row'>
+
+				<div id="dataContainer">
+					<div id="loading">Data is on the way...</div>
+				</div>
+			</div>
+
+		</div> 
+		<!-- end menu display -->
+
+    <!-- Sidebar -->
+        <div id="sidebar-wrapper" class='col-md-3'>
+
+                <div id="orderDisplay" class="sidebar-nav-fixed affix">
+
+					<div id='totalOrderAmount'>
+						data is on the way...
+					</div>
+
+					<div id="orderTotal_text">Your total order is:</div>
+					<div id="orderTotal">0</div>
+
+					<div id="confirm_button" class='btn btn-default'>
+
+						Confirm Your Order
+
+					</div>
+					<!-- confirm_Button -->
+				</div>
+				<!-- orderDisplay -->
+        </div>
+     <!-- sidebar_wrapper -->
+
+	</div><!-- end wrapper -->
 
 
-	<div id="dataContainer">
-		<div id="loading">Data is on the way...</div>
+	<div id='backend' class="col-md-offset-10 col-md-2">
+		<form action="/input">
+		<button id='backend_button' class='btn btn-default'>
+			Unicorns click here.
+		</button>
+		</form>
 	</div>
 	
-	<div id="buttons">
-		<div id="user_button">
-			<form action="/order">
-				<button> Click Here For Food</button>
-			</form>
-			
-		</div>
-
-		<div id="input_button">
-			<form action="/input">
-				<button> Click Here For Unicorns</button>
-			</form>
-		</div>
 	</div>
+
+
+
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
 	<script src="js/displayMenu.js"></script>
 	<script src="js/index.js"></script>
+	<script src="js/order_client.js"></script>
+
 
 </body>
 

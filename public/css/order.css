@@ -1,0 +1,63 @@
+body{
+	background-color: #DDDDDD;
+}
+
+.jumbotron{
+	background-image: url("../src/popcorn.jpg");
+	background-size: cover;
+}
+
+#orderTotal{
+	font-size: 100px;
+}
+
+
+/*#order_container{
+	//text-align: center;
+}
+
+.deleteButton{
+	display: none;
+}
+
+#menuName{
+	width: 400px;
+	display: inline-block;
+}
+
+#backend #backend_button{
+	display: inline-block;
+	text-align: center;
+}
+
+
+#totalOrderAmount{
+	font-size: 20px;
+}
+
+#container{
+	background-color: #999999;
+}
+
+#dataContainer{
+	font-size: 15px;
+}
+
+#confirm_button{
+	text-align: center;
+}
+
+
+
+#orderTotal_text{
+	text-align: center;
+}
+
+#orderTotal{
+	width: 200px;
+	margin:0 auto;
+	background-color: #BBBBBB;
+	text-align: center;
+	font-size: 50px;
+}*/
+

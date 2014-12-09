@@ -57,9 +57,37 @@ exports.delete_menu_item=function(req,res){
 	},
 	function (error, response, body){
 		console.log("menu item deleted");
+		res.send('deleted');
 	});
 };
 
+/*
+exports.delete_menu_item=function(req,res){
+	var db_DATABASE = 'samurai_menu';
+	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+
+	console.log("Deleting an object");
+	var theObj = req.body;
+	theObj.name="deleted";
+	theObj.price="deleted";
+	//The URL must include the obj ID and the obj REV values
+	var theURL = db_URL + '/' + theObj._id;
+	//Need to make a DELETE Request
+	Request.post({
+		url: db_URL,
+		auth: {
+			user: db_KEY,
+			pass: db_PASSWORD
+		},
+		json: true,
+		body:theObj
+	},
+	function (error, response, body){
+		console.log("menu item deleted");
+		res.send('deleted');
+	});
+};
+*/
 
 exports.delete_credit_entry=function(req,res){
 	var db_DATABASE = 'user_credit';

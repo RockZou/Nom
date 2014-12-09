@@ -1,4 +1,4 @@
-var order_routes = require('./order.js');
+var order_route = require('./order_route.js');
 
 
 // main page
@@ -7,8 +7,8 @@ exports.index =  function(req, res){
 };
 //order page
 exports.order =function(req, res){
-  order_routes.clearOrderData();
-  res.render('user');
+  order_route.clearOrderData();
+  res.render('order');
 };
 
 exports.input = function(req, res){

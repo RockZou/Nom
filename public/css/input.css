@@ -12,6 +12,18 @@ h2{
 text-align: center;
 }
 
+
+#menu_input{
+	display: inline;
+}
+#credit_input{
+	display: inline;
+}
+
+#menu_input .addButton{
+	visibility: hidden;
+}
+
 #loading{
 	text-align: center;
 }
@@ -22,6 +34,11 @@ text-align: center;
 
 #credit_input{
 	text-align: center;
+}
+
+
+#credit_input{
+	display: none;
 }
 /*#creditContainer{
 	text-align: center;

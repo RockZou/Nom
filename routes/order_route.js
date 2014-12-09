@@ -9,25 +9,29 @@ var _ = require('underscore');
 
 var orderTotal=0;
 var theOrder=[];//store all ordered items from a user
-var theOrderObj={};
+//var theOrderObj={};
 
 var db_USER='rockzou';
 var db_DATABASE = 'samurai_orders';
 var db_KEY = 'someeptimedcurvandentsoc';
 var db_PASSWORD = 'NUfwHgih5VxoNA6OHVpkEHYp';
 
-exports.order_add = function(req,res){
-	
-	var theObj=req.body;
-	orderTotal+=parseInt(theObj.price,10);
-	theOrder.push(theObj);
-	console.log("the current order is:");
-	console.log(theOrder);
-};
 
 exports.order_confirm = function(req,res){
 	//var db_DATABASE = 'samurai_orders';
 	var db_URL = 'https://'+ db_USER +'.cloudant.com/' + db_DATABASE;
+	console.log(req.body);
+	var theOrderData = req.body;
+	theOrder=theOrderData.data;
+
+	var orderTotal=0;
+	theOrder.forEach(function(d,i){
+		orderTotal+=parseInt(d.price,10);
+	});
+
+	var theOrderObj={};
+	theOrderObj.theOrder=theOrder;
+
 
 	console.log("posting an order");
 

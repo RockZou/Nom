@@ -6,7 +6,7 @@ var user_credits=[];
 function deleteFunction(dataObj){
 	console.log(dataObj);
 	//Make sure you want to delete
-	var conf = confirm("Are you sure you want to delete '" + dataObj.user + " : " + dataObj.word + "' ?");
+	var conf = confirm("Are you sure you want to delete '" + dataObj.name + " : " + dataObj.price + "' ?");
 	if (!conf) return;
 
 	$('#loading').html('deleting');
@@ -58,7 +58,6 @@ function sendToServer(theObj){
 		}
 	});
 }
-
 
 /****
 Credit related
@@ -120,10 +119,17 @@ function User_credit(dataObj,index){
 	};
 }
 
+function addCreditToEntry(dataObj){
+	var promptVal = prompt('How much should be added to hungry' + dataObj.user_name+ ' ?');
+	var amountInt = parseInt(dataObj.amount,10);
+	dataObj.amount=amountInt+parseInt(promptVal,10);
+	saveCredit(dataObj);
+}
+
 function deleteCreditEntry(dataObj){
 	console.log(dataObj);
 	//Make sure you want to delete
-	var conf = confirm("Are you sure you want to delete '" + dataObj.user + " : " + dataObj.word + "' ?");
+	var conf = confirm("Are you sure you want to delete '" + dataObj.user_name + "'s credit entry? ");
 	if (!conf) return;
 
 	$('#loading').html('deleting');
@@ -164,7 +170,7 @@ function getCredits(){
 				return d.doc;
 			});
 			user_credits=credit_docs;
-			user_credits.sort(function(a,b){return(a.user_name-b.user_name)});
+			user_credits.sort(function(a,b){return(a.user_name-b.user_name);});
 
 			$('#creditContainer').html('<ul id="theCreditList" style="list-style-type:none">');
 			user_credits.forEach(function(d,i){
@@ -197,23 +203,34 @@ $(document).ready(function(){
 	getMenu();
 	getCredits();
 
+	function isNumber(obj) { return !isNaN(parseFloat(obj)) }
+
 	$('#enter').click(function(){
 		console.log("Enter clicked");
 		var name = $('#name').val();
 		var price = $('#price').val();
+
 		var obj = {
 			name:name,
 			price:price
 		};
 		console.log(obj);
+
+		if (isNumber(price))
 		sendToServer(obj);
+		else
+		{
+			alert('be a good unicorn and type in numbers only');
+		}
 	});
+
 
 	$('#credit_enter').click(function(){
 
 		console.log("Credit_enter clicked");
 		var user_name = $('#credit_user').val();
 		var credit_amount = $('#credit_amount').val();
+
 		var credit_obj = {
 			user_name:user_name,
 			amount:credit_amount
